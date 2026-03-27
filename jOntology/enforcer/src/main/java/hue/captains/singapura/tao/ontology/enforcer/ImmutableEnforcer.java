@@ -87,6 +87,10 @@ public final class ImmutableEnforcer implements StatelessFunctionalObject {
     }
 
     private boolean isAllowedStaticMethod(final Method method) {
+        // Synthetic methods (lambdas, bridge methods, etc.) are compiler-generated
+        if (method.isSynthetic()) {
+            return true;
+        }
         // JVM entry point is the only acceptable static method
         if ("main".equals(method.getName())) {
             final Class<?>[] params = method.getParameterTypes();

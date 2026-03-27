@@ -21,7 +21,7 @@ public final class OntologyEnforcer implements StatelessFunctionalObject {
      * This is the only acceptable static method — it immediately delegates to an instance.
      */
     public static void main(final String[] args) throws ClassNotFoundException {
-        new OntologyEnforcer().run(args);
+        System.exit(new OntologyEnforcer().run(args));
     }
 
     public List<ContractViolation> enforce(final Class<?> clazz) {
@@ -53,16 +53,16 @@ public final class OntologyEnforcer implements StatelessFunctionalObject {
 
         if (!hasOntologyMarker) {
             violations.add(new ContractViolation(
-                    clazz.getName() + ": does not implement any ontology marker interface"));
+                    clazz.getName() + ": Who are you, where do you come from, and where are you going?"));
         }
 
         return violations;
     }
 
-    private void run(final String[] args) throws ClassNotFoundException {
+    int run(final String[] args) throws ClassNotFoundException {
         if (args.length == 0) {
             System.err.println("Usage: OntologyEnforcer <fully-qualified-class-name> [...]");
-            System.exit(1);
+            return 1;
         }
 
         boolean hasViolations = false;
@@ -77,6 +77,6 @@ public final class OntologyEnforcer implements StatelessFunctionalObject {
             }
         }
 
-        System.exit(hasViolations ? 1 : 0);
+        return hasViolations ? 1 : 0;
     }
 }

@@ -75,6 +75,47 @@ public class ShoppingCart implements Mutable {
 }
 ```
 
+## Modules
+
+| Module | Description |
+|--------|-------------|
+| **core** | The marker interfaces (`Immutable`, `Mutable`, `Stateless`, `ValueObject`, `FunctionalObject`, `StatelessFunctionalObject`) |
+| **enforcer** | Runtime contract verification — checks that classes honor the rules implied by their marker interfaces (e.g. `Immutable` fields are final, `ValueObject` overrides `equals`/`hashCode`) |
+| **enforcing-utils** | CLI tool that scans an entire package, runs the enforcer on every class, and prints a summary report |
+| **test-fixtures** | Shared fixture classes used by both `enforcer` and `enforcing-utils` tests |
+
+## Installation
+
+Add the dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>io.github.captainssingapura-hue.lang.ontology</groupId>
+    <artifactId>core</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+To also use the runtime enforcer:
+
+```xml
+<dependency>
+    <groupId>io.github.captainssingapura-hue.lang.ontology</groupId>
+    <artifactId>enforcer</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+To scan and enforce an entire package:
+
+```xml
+<dependency>
+    <groupId>io.github.captainssingapura-hue.lang.ontology</groupId>
+    <artifactId>enforcing-utils</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
 ## Requirements
 
 - Java 21+
@@ -87,4 +128,4 @@ mvn clean install
 
 ## License
 
-TBD
+MIT
