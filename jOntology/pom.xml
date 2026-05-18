@@ -39,6 +39,8 @@
         <module>test-fixtures</module>
         <module>enforcer</module>
         <module>enforcing-utils</module>
+        <module>http</module>
+        <module>rebar</module>
     </modules>
 
     <properties>
@@ -100,5 +102,55 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>local-run</id>
+            <activation>
+                <!-- Optional: Make this profile active by default unless another profile is specified -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env.config>local</env.config>
+                <maven.test.skip>false</maven.test.skip>
+            </properties>
+            <!-- Add specific dependencies or plugins for local runs here -->
+        </profile>
+        <profile>
+            <id>deploy</id>
+            <properties>
+                <env.config>prod</env.config>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.7</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.7.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- Add production-specific dependencies or repositories here -->
+        </profile>
+    </profiles>
 
 </project>
