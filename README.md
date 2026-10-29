@@ -99,7 +99,7 @@ public class ShoppingCart implements Mutable {
 | Module | Description |
 |--------|-------------|
 | **core** | The marker interfaces (`Immutable`, `Mutable`, `Stateless`, `ValueObject`, `Scalar`, `Vector`, `FunctionalObject`, `StatelessFunctionalObject`) |
-| **enforcer** | Runtime contract verification — checks that classes honor the rules implied by their marker interfaces (e.g. `Immutable` fields are final, `Stateless` has no fields). A `ValueObject` is checked as an `Immutable`; its value-object rules are the application's to enforce |
+| **enforcer** | Runtime contract verification — checks that classes honor the rules implied by their marker interfaces (e.g. `Immutable` fields are final, `Stateless` has no fields). A `ValueObject` is checked as an `Immutable`; its value-object rules are the application's to enforce. A `Vector` implementation's storage (an array or a `java.util` collection) is trusted; its other fields are checked as usual |
 | **enforcing-utils** | CLI tool that scans an entire package, runs the enforcer on every class, and prints a summary report |
 | **test-fixtures** | Shared fixture classes used by both `enforcer` and `enforcing-utils` tests |
 

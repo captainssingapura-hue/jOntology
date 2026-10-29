@@ -5,9 +5,13 @@ import hue.captains.singapura.tao.ontology.enforcer.fixtures.BadImmutableWithMut
 import hue.captains.singapura.tao.ontology.enforcer.fixtures.BadImmutableWithSetter;
 import hue.captains.singapura.tao.ontology.enforcer.fixtures.BadImmutableWithStaticMethod;
 import hue.captains.singapura.tao.ontology.enforcer.fixtures.BadImmutableTransitive;
+import hue.captains.singapura.tao.ontology.enforcer.fixtures.BadVectorWithMutableField;
 import hue.captains.singapura.tao.ontology.enforcer.fixtures.GoodImmutable;
 import hue.captains.singapura.tao.ontology.enforcer.fixtures.GoodImmutableTransitive;
 import hue.captains.singapura.tao.ontology.enforcer.fixtures.GoodImmutableWithEnum;
+import hue.captains.singapura.tao.ontology.enforcer.fixtures.GoodScalarWithVectorField;
+import hue.captains.singapura.tao.ontology.enforcer.fixtures.GoodVectorArrayStorage;
+import hue.captains.singapura.tao.ontology.enforcer.fixtures.GoodVectorListStorage;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -70,6 +74,31 @@ final class ImmutableEnforcerTest {
     @Test
     void enumFieldTypeIsImmutable() {
         final List<ContractViolation> violations = enforcer.enforce(GoodImmutableWithEnum.class);
+        assertTrue(violations.isEmpty(), () -> "Expected no violations but got: " + violations);
+    }
+
+    @Test
+    void vectorArrayStorageIsTrusted() {
+        final List<ContractViolation> violations = enforcer.enforce(GoodVectorArrayStorage.class);
+        assertTrue(violations.isEmpty(), () -> "Expected no violations but got: " + violations);
+    }
+
+    @Test
+    void vectorListStorageIsTrusted() {
+        final List<ContractViolation> violations = enforcer.enforce(GoodVectorListStorage.class);
+        assertTrue(violations.isEmpty(), () -> "Expected no violations but got: " + violations);
+    }
+
+    @Test
+    void vectorNonStorageMutableFieldIsViolation() {
+        final List<ContractViolation> violations = enforcer.enforce(BadVectorWithMutableField.class);
+        assertEquals(1, violations.size(), () -> "Expected only the label field but got: " + violations);
+        assertTrue(violations.get(0).message().contains("'label'"));
+    }
+
+    @Test
+    void vectorFieldsPassTransitively() {
+        final List<ContractViolation> violations = enforcer.enforce(GoodScalarWithVectorField.class);
         assertTrue(violations.isEmpty(), () -> "Expected no violations but got: " + violations);
     }
 
