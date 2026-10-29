@@ -1,6 +1,6 @@
 package hue.captains.singapura.tao.ontology.utils;
 
-import hue.captains.singapura.tao.ontology.ValueObject;
+import hue.captains.singapura.tao.ontology.Scalar;
 import hue.captains.singapura.tao.ontology.enforcer.ContractViolation;
 
 import java.util.Comparator;
@@ -10,7 +10,7 @@ import java.util.Map;
 public record EnforcingReport(
         String packageName,
         Map<Class<?>, List<ContractViolation>> results
-) implements ValueObject {
+) implements Scalar {
 
     public EnforcingReport {
         results = Map.copyOf(results);

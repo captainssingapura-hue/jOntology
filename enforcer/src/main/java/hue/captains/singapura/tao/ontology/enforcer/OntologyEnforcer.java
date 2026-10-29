@@ -5,7 +5,6 @@ import hue.captains.singapura.tao.ontology.Immutable;
 import hue.captains.singapura.tao.ontology.Mutable;
 import hue.captains.singapura.tao.ontology.Stateless;
 import hue.captains.singapura.tao.ontology.StatelessFunctionalObject;
-import hue.captains.singapura.tao.ontology.ValueObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +42,6 @@ public final class OntologyEnforcer implements StatelessFunctionalObject {
         } else if (Stateless.class.isAssignableFrom(clazz)) {
             hasOntologyMarker = true;
             violations.addAll(new StatelessEnforcer().enforce(clazz));
-        } else if (ValueObject.class.isAssignableFrom(clazz)) {
-            hasOntologyMarker = true;
-            violations.addAll(new ValueObjectEnforcer().enforce(clazz));
         } else if (Immutable.class.isAssignableFrom(clazz)) {
             hasOntologyMarker = true;
             violations.addAll(new ImmutableEnforcer().enforce(clazz));
