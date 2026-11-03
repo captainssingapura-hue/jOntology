@@ -45,11 +45,11 @@ An `Immutable` object whose identity is determined entirely by the values it hol
 
 ### Scalar
 
-A `ValueObject` that is one value, not a sequence: a sum (a sealed interface), a product (a record) or an enum declared by the application. Its fields are primitives, scalars or vectors.
+A `ValueObject` that is one value, not a collection of values: a sum (a sealed interface), a product (a record) or an enum declared by the application. Its fields are primitives, scalars or vectors.
 
 ### Vector
 
-A `ValueObject` that is a finite sequence of one `Scalar` type, equal by its elements in order. `Vector<S extends Scalar>` is an interface with no methods and no implementation; the application supplies one and keeps it immutable. The bound rules out vectors of primitives and vectors of vectors — wrap the element in a one-component record instead.
+A `ValueObject` that is a finite set of one `Scalar` type, with optional meta information the implementation makes part of its value: order, multiplicity (duplicates), or none for a plain set. Two vectors are equal when their elements and their meta information are equal; vectors whose meta differs in kind are never equal. `Vector<S extends Scalar>` is an interface with no methods and no implementation; the application supplies one per kind of meta and keeps it immutable. A field typed by the bare `Vector<S>` leaves the kind open, so applications that need a fixed equality type the field by their own implementation or sub-interface. The bound rules out vectors of primitives and vectors of vectors — wrap the element in a one-component record instead.
 
 ### FunctionalObject
 
@@ -70,10 +70,10 @@ public sealed interface Shape extends Scalar permits Circle, Square {}
 public record Circle(long radius) implements Shape {}
 public record Square(long side) implements Shape {}
 
-// A sequence of scalars; the application keeps it immutable
+// A vector whose meta information is order; the application keeps it immutable
 public final class Shapes implements Vector<Shape> {
     private final Shape[] elements;
-    // copies on construction; equals/hashCode by elements in order
+    // copies on construction; equals/hashCode by elements, in order
 }
 
 // A pure function group — any instance will do
