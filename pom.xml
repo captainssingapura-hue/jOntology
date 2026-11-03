@@ -6,7 +6,7 @@
 
     <groupId>io.github.captainssingapura-hue.lang.ontology</groupId>
     <artifactId>jOntology</artifactId>
-    <version>0.0.1</version>
+    <version>LOCAL-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>jOntology</name>

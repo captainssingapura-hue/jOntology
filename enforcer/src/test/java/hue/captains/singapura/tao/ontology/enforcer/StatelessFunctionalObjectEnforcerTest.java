@@ -32,7 +32,6 @@ final class StatelessFunctionalObjectEnforcerTest {
                 ImmutableEnforcer.class,
                 MutableEnforcer.class,
                 StatelessEnforcer.class,
-                ValueObjectEnforcer.class,
                 FunctionalObjectEnforcer.class,
                 StatelessFunctionalObjectEnforcer.class,
                 OntologyEnforcer.class

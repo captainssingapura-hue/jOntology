@@ -1,13 +1,13 @@
 package hue.captains.singapura.tao.ontology.enforcer.fixtures;
 
-import hue.captains.singapura.tao.ontology.ValueObject;
+import hue.captains.singapura.tao.ontology.Scalar;
 
 import java.util.Objects;
 
 /**
  * A well-behaved ValueObject: has fields, overrides equals and hashCode, all immutable.
  */
-public final class GoodValueObject implements ValueObject {
+public final class GoodValueObject implements Scalar {
 
     private final String name;
     private final int value;

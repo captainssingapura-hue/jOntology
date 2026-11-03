@@ -2,12 +2,15 @@ package hue.captains.singapura.tao.ontology.enforcer;
 
 import hue.captains.singapura.tao.ontology.Immutable;
 import hue.captains.singapura.tao.ontology.StatelessFunctionalObject;
+import hue.captains.singapura.tao.ontology.Vector;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Map;
 import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
@@ -30,6 +33,10 @@ import java.util.regex.Pattern;
  *  - No setter methods.
  *  - No static methods (FunctionalObject eliminates the need for them).
  *  - All instance field types must themselves be immutable (transitive check).
+ *
+ * A Vector implementation is trusted with its storage: an array or a java.util
+ * collection field is the implementer's business and skips the transitive check.
+ * Every other rule still applies to it.
  */
 public final class ImmutableEnforcer implements StatelessFunctionalObject {
 
@@ -53,6 +60,7 @@ public final class ImmutableEnforcer implements StatelessFunctionalObject {
             return violations;
         }
 
+        final boolean isVector = Vector.class.isAssignableFrom(clazz);
         for (final Field field : clazz.getDeclaredFields()) {
             if (Modifier.isStatic(field.getModifiers())) {
                 continue;
@@ -60,6 +68,9 @@ public final class ImmutableEnforcer implements StatelessFunctionalObject {
             if (!Modifier.isFinal(field.getModifiers())) {
                 violations.add(new ContractViolation(
                         clazz.getName() + ": instance field '" + field.getName() + "' is not final"));
+            }
+            if (isVector && isVectorStorage(field.getType())) {
+                continue;
             }
             if (!isImmutableType(field.getType(), visited)) {
                 violations.add(new ContractViolation(
@@ -97,6 +108,12 @@ public final class ImmutableEnforcer implements StatelessFunctionalObject {
             return params.length == 1 && params[0] == String[].class;
         }
         return false;
+    }
+
+    private boolean isVectorStorage(final Class<?> type) {
+        return type.isArray()
+                || Collection.class.isAssignableFrom(type)
+                || Map.class.isAssignableFrom(type);
     }
 
     private boolean isImmutableType(final Class<?> type, final Set<Class<?>> visited) {

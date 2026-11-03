@@ -41,7 +41,7 @@ final class OntologyEnforcerTest {
     }
 
     @Test
-    void goodValueObjectPasses() {
+    void scalarIsEnforcedAsImmutable() {
         final List<ContractViolation> violations = enforcer.enforce(GoodValueObject.class);
         assertTrue(violations.isEmpty(), () -> "Expected no violations but got: " + violations);
     }
