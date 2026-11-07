@@ -6,11 +6,12 @@
     <parent>
         <groupId>io.github.captainssingapura-hue.lang.ontology</groupId>
         <artifactId>jOntology</artifactId>
-        <version>LOCAL-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
 
     <artifactId>enforcer</artifactId>
     <name>jOntology Enforcer</name>
+    <description>Static analysis enforcer that validates jOntology marker conformance.</description>
 
     <dependencies>
         <dependency>
